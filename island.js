@@ -1,35 +1,35 @@
 function getNeighbors(row, col, matrix) {
   let neighbors = [];
   // Check top
-  if (row > 0 && matrix[row - 1][col] === 1){
+  if (row > 0 && matrix[row - 1][col] === 1) {
     neighbors.push([row - 1, col]);
   }
   // Check top right
-  if (row > 0 && col < matrix[0].length - 1 && matrix[row - 1][col + 1] === 1){
+  if (row > 0 && col < matrix[0].length - 1 && matrix[row - 1][col + 1] === 1) {
     neighbors.push([row - 1, col + 1]);
   }
   // Check right
-  if (col < matrix[0].length - 1 && matrix[row][col + 1] === 1){
+  if (col < matrix[0].length - 1 && matrix[row][col + 1] === 1) {
     neighbors.push([row, col + 1]);
   }
   // Check bottom right
-  if (row < matrix.length - 1 && col < matrix[0].length - 1 && matrix[row + 1][col + 1] === 1){
+  if (row < matrix.length - 1 && col < matrix[0].length - 1 && matrix[row + 1][col + 1] === 1) {
     neighbors.push([row + 1, col + 1]);
   }
   // Check bottom
-  if (row < matrix.length - 1 && matrix[row + 1][col] === 1){
+  if (row < matrix.length - 1 && matrix[row + 1][col] === 1) {
     neighbors.push([row + 1, col]);
   }
   // Check bottom left
-  if (row < matrix.length - 1 && col > 0 && matrix[row + 1][col - 1] === 1){
+  if (row < matrix.length - 1 && col > 0 && matrix[row + 1][col - 1] === 1) {
     neighbors.push([row + 1, col - 1]);
   }
   // Check left
-  if (col > 0 && matrix[row][col - 1] === 1){
+  if (col > 0 && matrix[row][col - 1] === 1) {
     neighbors.push([row, col - 1]);
   }
   // Check top left
-  if (row > 0 && col > 0 && matrix[row - 1][col - 1] === 1){
+  if (row > 0 && col > 0 && matrix[row - 1][col - 1] === 1) {
     neighbors.push([row - 1, col - 1]);
   }
   // Return neighbors
@@ -38,25 +38,60 @@ function getNeighbors(row, col, matrix) {
 
 function countIslands(matrix) {
 
+
+
   // Create a visited set to store visited nodes
+  let visited = new Set();
+  let count = 0;
+  for (let row = 0; row < matrix.length; row++) {
+    for (col = 0; col < matrix[0].length; col++) {
+      let node = matrix[row][col];
+      let stack = [[row, col]];
+      if (node === 1 && !visited.has([row, col].toString())) {
+        count++;
+        while (stack.length) {
+          let curr = stack.pop();
+          let neighbors = getNeighbors(curr[0], curr[1], matrix);
+          for (let neighbor of neighbors) {
+            if (!visited.has(neighbor.toString())) {
+              visited.add(neighbor.toString());
+              stack.push(neighbor);
+            }
+          }
+        }
+      }
+      else continue;
+    }
+  }
+  return count;
+
   // Initialize count to 0
   // Iterate through all indices in matrix
-    // If an index contains a 1 and has not been visited,
-    // increment island count and start traversing neighbors
-      // DO THE THING (increment island count by 1)
-      // Initialize a stack with current index
-      // Add stringified version of current index to the visited set
-      // While stack contains elements
-        // Pop element from stack
-        // Get valid neighbors of current element
-        // Iterate over neigbors
-          // If neighbor has not been visited
-            // Add neighbor to stack
-            // Mark neighbor as visited
+  // If an index contains a 1 and has not been visited,
+  // increment island count and start traversing neighbors
+  // DO THE THING (increment island count by 1)
+  // Initialize a stack with current index
+  // Add stringified version of current index to the visited set
+  // While stack contains elements
+  // Pop element from stack
+  // Get valid neighbors of current element
+  // Iterate over neigbors
+  // If neighbor has not been visited
+  // Add neighbor to stack
+  // Mark neighbor as visited
   // Return island count
 
   // Your code here
 }
+const matrix2 = [
+                    [1,1,1,0,1],
+                    [0,0,0,0,1],
+                    [1,0,0,1,0],
+                ]
+
+// console.log(countIslands(matrix)) // 2
+console.log(countIslands(matrix2)); // 3
+
 
 // Uncomment the lines below for local testing
 // const matrix = [
